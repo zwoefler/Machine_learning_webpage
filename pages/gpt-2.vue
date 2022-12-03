@@ -1,5 +1,5 @@
 <template>
-  <div>
+    <div>
     <p>Welcome to Whisper</p>
     <div class="flex flex-col">
       <input type="text" placeholder="token" v-model="token">
@@ -12,6 +12,7 @@
     </div>
   </div>
 </template>
+
 
 <script setup>
 var data = ref("")
@@ -37,4 +38,5 @@ const query = async () => {
   generated_text.value = result.value[0]["generated_text"]
   return
 }
+
 </script>
