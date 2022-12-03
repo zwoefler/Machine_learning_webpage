@@ -171,9 +171,10 @@
     </Textarea>
 
     <div
-      class="w-full h-64 bg-black"
+      class="w-full h-80 bg-gray-500 border"
       :class="{ 'animate-pulse': loadingGeneratedImage }"
     >
+      <LoadingMask v-if="loadingGeneratedImage"/>
       <img :src="generated_image_base64" class="w-full" alt="" />
     </div>
   </div>
