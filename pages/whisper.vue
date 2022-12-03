@@ -1,6 +1,6 @@
 <template>
   <div class="space-y-4 divide-y divide-slate-600">
-    <p class="text-xl">Text to Image</p>
+    <p class="text-xl">Audio to Text</p>
     <div id="hugging_face_token" class="space-y-2">
       <label class="block font-medium text-sm mx-auto" for="hug_token">
         Huggingface Token:
@@ -171,30 +171,7 @@
     </Textarea>
 
 
-  <div>
-    <p class="text-white text-xl font-bold">Your previous images:</p>
-    <div class="flex space-x-2 overflow-x-auto">
-      <div v-if="!generatedImages[0]">
-        <div class="w-48 h-72 bg-gray-700"></div>
-      </div>
-      <div
-        v-else
-        v-for="image in generatedImages"
-        :key="image.id"
-        class="flex-none flex flex-col items-center bg-white rounded w-48 h-72">
-        <img class="flex flex-none w-48 h-48"  :src="image.image">
-        <p class="text-black">{{ image.prompt }}</p>
-      </div>
-    </div>
-  </div>
 
-    <div
-      class="w-full h-80 bg-gray-500"
-      :class="{ 'animate-pulse': loadingGeneratedImage }"
-    >
-      <LoadingMask v-if="loadingGeneratedImage"/>
-      <img class="object-cover" :src="generated_image_base64" alt="" />
-    </div>
   </div>
 </template>
 
