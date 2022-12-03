@@ -33,6 +33,7 @@
               dark:focus:border-blue-500
             "
             placeholder="Your message..."
+            v-model="data"
           ></textarea>
         </template>
         <template #submit>
@@ -45,6 +46,7 @@
               text-white
               border border-blue-700
             "
+            @click="query()"
           >
             Generate Text
           </button>
@@ -52,9 +54,6 @@
       </Textarea>
     </div>
 
-    <button @click="query()" class="bg-blue-500 rounded p-2">
-      GENERATE TEXT
-    </button>
     <div class="">
       <p>RESULT:</p>
       <p class="">{{ generated_text }}</p>
