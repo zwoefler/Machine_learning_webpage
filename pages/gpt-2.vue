@@ -3,14 +3,80 @@
     <p class="text-xl">Welcome to GPT-2</p>
 
     <div class="">
-      <div class="flex w-full">
-        <input
-          class="w-full"
-          type="text"
-          placeholder="Paste your Huggingface token"
-          v-model="token"
-        />
+      <!--  -->
+      <div class="space-y-2">
+        <label class="block font-medium text-sm mx-auto" for="hug_token">
+          Huggingface Token:
+        </label>
+        <div
+          class="
+            relative
+            focus-within:text-gray-900
+            dark:focus-within:text-gray-800
+          "
+        >
+          <div
+            aria-hidden="true"
+            class="
+              absolute
+              inset-y-0
+              flex
+              items-center
+              px-3
+              pointer-events-none
+            "
+          >
+            <svg
+              aria-hidden="true"
+              class="w-5 h-5"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+              ></path>
+            </svg>
+          </div>
+
+          <input
+            class="
+              pl-11
+              text-gray-800
+              pr-4 pr-11
+              py-2
+              border-gray-600
+              rounded-md
+              focus:border-gray-400 focus:ring focus:ring-gray-800
+              ring-gray-400 ring
+              focus:ring-offset-2 focus:ring-offset-white
+              dark:border-gray-600
+              dark:bg-primary-darker
+              dark:focus:ring-offset-dark-eval-1
+              block
+              w-full
+            "
+            id="hug_token"
+            name="hug_token"
+            required="required"
+            placeholder="Huggingface Access Token"
+            :type="isShown ? 'text' : 'password'"
+            v-model="token"
+          />
+
+          <div class="absolute right-0 z-30 inset-y-1 flex items-center px-4">
+            <isShownButton @click="toggleIsShown"/>
+          </div>
+
+        </div>
       </div>
+
+
+      <!--  -->
       <Textarea>
         <template #textarea>
           <textarea
@@ -66,6 +132,12 @@
 var data = ref("");
 var token = ref("");
 var result = ref("");
+var isShown = ref(false);
+
+function toggleIsShown(){
+  isShown.value = !isShown.value
+}
+
 var generated_text = ref("");
 function print() {
   console.log("PRESSED");
