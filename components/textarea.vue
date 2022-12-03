@@ -1,5 +1,4 @@
 <template>
-  <!-- IPUT MESSAGE BOX -->
   <div class="mx-auto">
     <label
       for="prompt"

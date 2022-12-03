@@ -39,7 +39,6 @@
               ></path>
             </svg>
           </div>
-
           <input
             class="
               pl-11
@@ -201,6 +200,7 @@
               dark:focus:ring-blue-500
               dark:focus:border-blue-500
             "
+            :class="{ 'animate-pulse': loadingGeneratedText }"
             placeholder="Generated Text..."
             v-model="generated_text"
           ></textarea>
@@ -215,6 +215,7 @@ var prompt = ref("");
 var token = ref("");
 var result = ref("");
 var isShown = ref(false);
+var loadingGeneratedText = ref(false)
 
 function toggleIsShown() {
   isShown.value = !isShown.value;
@@ -225,7 +226,7 @@ function print() {
   console.log("PRESSED");
 }
 const query = async () => {
-  console.log(token.value, prompt.value);
+  loadingGeneratedText.value = true
   const response = await fetch(
     "https://api-inference.huggingface.co/models/gpt2",
     {
@@ -234,9 +235,8 @@ const query = async () => {
       body: JSON.stringify(prompt.value),
     }
   );
-  console.log("Fetching prompt");
   result.value = await response.json();
-  console.log("Fetched");
+  loadingGeneratedText.value = false
   generated_text.value = result.value[0]["generated_text"];
   return;
 };
