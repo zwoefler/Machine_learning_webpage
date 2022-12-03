@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-4 divide-y">
+  <div class="space-y-4 divide-y divide-slate-600">
     <p class="text-xl">Welcome to GPT-2</p>
       <div class="space-y-2">
         <label class="block font-medium text-sm mx-auto" for="hug_token">
