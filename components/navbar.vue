@@ -29,6 +29,7 @@
         "
       >
         <NuxtLink to="gpt-2" class="hover:text-gray-200">GPT-2</NuxtLink>
+        <NuxtLink to="stablediffusion" class="hover:text-gray-200">Text to Image</NuxtLink>
       </ul>
       <div class="hidden xl:flex items-center space-x-5 items-center">
         <a class="flex items-center hover:text-gray-200" href="#">
