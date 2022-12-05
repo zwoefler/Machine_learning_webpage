@@ -155,11 +155,11 @@
       </template>
     </Textarea>
 
-    <div class="bg-white">
+    <div class="bg-gray-500">
       <div class="h-96 w-full p-2 space-y-2 overflow-y-scroll">
         <div v-for="message in chat" :key="message.id" :class="{ 'flex-row-reverse': message.sender!='Me' }" class="min-h-14 w-full flex justify-between">
-          <div class="w-1/2"></div>
-          <p :class="message.sender == 'Me' ? 'bg-green-600 rounded-l-lg' : 'bg-red-600 rounded-r-lg'" class="p-2 h-full">{{ message.message }}</p>
+          <div class="w-1/3"></div>
+          <p :class="message.sender == 'Me' ? 'bg-green-600 rounded-l-lg' : 'bg-red-600 rounded-r-lg'" class="p-2 h-full w-full">{{ message.message }}</p>
         </div>
       </div>
       <div
@@ -171,7 +171,8 @@
       >
         <textarea
           id="chat"
-          v-model="message"
+          v-model="message_prompt"
+          @keyup.enter="query()"
           rows="1"
           class="
             block
@@ -223,46 +224,52 @@
 
 
 <script setup>
-var prompt = ref("");
-var message = ref("");
+var prompt = ref("The following is a casual chat between two people.\n");
+var message_prompt = ref("");
 var token = ref("");
 var result = ref("");
 var isShown = ref(false);
 var loadingGeneratedText = ref(false);
 
-var chat = [
-  {
-    sender: "Me",
-    message: "Hey, how are you?"
-  },
-  {
-    sender: "Bot",
-    message: "I am fine, and you?"
-  }
-]
+var chat = ref([
+])
+
 
 function toggleIsShown() {
   isShown.value = !isShown.value;
 }
 
-var generated_text = ref("");
-function print() {
-  console.log("PRESSED");
+function createMessage() {
+  var message = {
+    sender: "Me",
+    message: message_prompt.value
+  }
+  chat.value.push(message)
+  var text = ref("")
+  chat.value.forEach(element => {
+    text.value += element.sender + ": " + element.message+ "\n "
+  });
+  return prompt.value + text.value
 }
+
 const query = async () => {
   loadingGeneratedText.value = true;
-  console.log("prmooppt and message", prompt.value, message.value)
-  // const response = await fetch(
-  //   "https://api-inference.huggingface.co/models/bigscience/bloom",
-  //   {
-  //     headers: { Authorization: `Bearer ${token.value}` },
-  //     method: "POST",
-  //     body: JSON.stringify(prompt.value),
-  //   }
-  // );
-  // result.value = await response.json();
+  var machinePrompt = createMessage()
+  message_prompt.value = ""
+  const response = await fetch(
+    "https://api-inference.huggingface.co/models/bigscience/bloom",
+    {
+      headers: { Authorization: `Bearer ${token.value}` },
+      method: "POST",
+      body: JSON.stringify(machinePrompt),
+    }
+  );
+  result.value = await response.json();
   loadingGeneratedText.value = false;
-  // generated_text.value = result.value[0]["generated_text"];
+  var generated_text = result.value[0]["generated_text"].replace(machinePrompt, "");
+  var bot_message = generated_text.split("\n")[0].split(":")[1]
+  console.log("Geenrated:", generated_text, "BOT MESSAGE:", bot_message)
+  chat.value.push({ sender: "Bot", message: bot_message})
   return;
 };
 </script>
