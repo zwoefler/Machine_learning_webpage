@@ -157,9 +157,9 @@
 
     <div class="bg-gray-500">
       <div class="h-96 w-full p-2 space-y-2 overflow-y-scroll">
-        <div v-for="message in chat" :key="message.id" :class="{ 'flex-row-reverse': message.sender!='Me' }" class="min-h-14 w-full flex justify-between">
+        <div v-for="message in chat" :key="message.id" :class="{ 'flex-row-reverse': message.sender!='Mark' }" class="min-h-14 w-full flex justify-between">
           <div class="w-1/3"></div>
-          <p :class="message.sender == 'Me' ? 'bg-green-600 rounded-l-lg' : 'bg-red-600 rounded-r-lg'" class="p-2 h-full w-full">{{ message.message }}</p>
+          <p :class="message.sender == 'Mark' ? 'bg-green-600 rounded-l-lg' : 'bg-red-600 rounded-r-lg'" class="p-2 h-full w-full">{{ message.message }}</p>
         </div>
       </div>
       <div
@@ -241,7 +241,7 @@ function toggleIsShown() {
 
 function createMessage() {
   var message = {
-    sender: "Me",
+    sender: "Mark",
     message: message_prompt.value
   }
   chat.value.push(message)
