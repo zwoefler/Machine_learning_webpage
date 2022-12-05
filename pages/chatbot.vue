@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-4 divide-y divide-slate-600">
-    <p class="text-xl">Audio to Text</p>
-    <div id="hugging_face_token" class="space-y-2">
+    <p class="text-xl">Chatbot with Bloom</p>
+    <div class="space-y-2">
       <label class="block font-medium text-sm mx-auto" for="hug_token">
         Huggingface Token:
       </label>
@@ -63,7 +63,7 @@
       </div>
     </div>
 
-    <Textarea id="your_prompt">
+    <Textarea>
       <template #label> Your Prompt </template>
       <template #textarea>
         <textarea
@@ -85,7 +85,7 @@
             dark:focus:ring-blue-500
             dark:focus:border-blue-500
           "
-          placeholder="Your message..."
+          placeholder="Your prompt..."
           v-model="prompt"
         ></textarea>
       </template>
@@ -153,52 +153,116 @@
           </div>
         </div>
       </template>
-      <template #submit>
-        <button
-          class="
-            bg-blue-500
-            px-2
-            py-0.5
-            rounded-lg
-            text-white
-            border border-blue-700
-          "
-          @click="query()"
-        >
-          Generate Image
-        </button>
-      </template>
     </Textarea>
 
-
-
+    <div class="bg-white">
+      <div class="h-96 w-full p-2 space-y-2 overflow-y-scroll">
+        <div v-for="message in chat" :key="message.id" :class="{ 'flex-row-reverse': message.sender!='Me' }" class="min-h-14 w-full flex justify-between">
+          <div class="w-1/2"></div>
+          <p :class="message.sender == 'Me' ? 'bg-green-600 rounded-l-lg' : 'bg-red-600 rounded-r-lg'" class="p-2 h-full">{{ message.message }}</p>
+        </div>
+      </div>
+      <div
+        class="
+          flex
+          items-center
+          rounded-lg
+        "
+      >
+        <textarea
+          id="chat"
+          v-model="message"
+          rows="1"
+          class="
+            block
+            mx-4
+            p-2.5
+            w-full
+            text-sm text-gray-900
+            bg-white
+            rounded-lg
+            border border-gray-300
+            focus:ring-blue-500 focus:border-blue-500
+            dark:bg-gray-800
+            dark:border-gray-600
+            dark:placeholder-gray-400
+            dark:text-white
+            dark:focus:ring-blue-500
+            dark:focus:border-blue-500
+          "
+          placeholder="Your message..."
+        ></textarea>
+        <button
+          @click="query"
+          class="
+            inline-flex
+            justify-center
+            p-2
+            text-blue-600
+            rounded-full
+            cursor-pointer
+            hover:bg-blue-100
+            dark:text-blue-500 dark:hover:bg-gray-600
+          "
+        >
+          <svg
+            class="w-6 h-6 rotate-90"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
+
 <script setup>
+var prompt = ref("");
+var message = ref("");
 var token = ref("");
+var result = ref("");
 var isShown = ref(false);
 var loadingGeneratedText = ref(false);
+
+var chat = [
+  {
+    sender: "Me",
+    message: "Hey, how are you?"
+  },
+  {
+    sender: "Bot",
+    message: "I am fine, and you?"
+  }
+]
 
 function toggleIsShown() {
   isShown.value = !isShown.value;
 }
 
-
+var generated_text = ref("");
+function print() {
+  console.log("PRESSED");
+}
 const query = async () => {
   loadingGeneratedText.value = true;
-  const data = fs.readFileSync("Dezemberabschlag.mp4");
-	const response = await fetch(
-		"https://api-inference.huggingface.co/models/openai/whisper-base",
-		{
-			headers: { Authorization: `Bearer ${token.value}` },
-			method: "POST",
-			body: data,
-		}
-	);
-	const result = await response.json();
-  loadingGeneratedText.value = false
-  console.log(JSON.stringify(result))
-	return result;
+  console.log("prmooppt and message", prompt.value, message.value)
+  // const response = await fetch(
+  //   "https://api-inference.huggingface.co/models/bigscience/bloom",
+  //   {
+  //     headers: { Authorization: `Bearer ${token.value}` },
+  //     method: "POST",
+  //     body: JSON.stringify(prompt.value),
+  //   }
+  // );
+  // result.value = await response.json();
+  loadingGeneratedText.value = false;
+  // generated_text.value = result.value[0]["generated_text"];
+  return;
 };
 </script>

@@ -29,6 +29,8 @@
         "
       >
         <NuxtLink to="gpt-2" class="hover:text-gray-200">GPT-2</NuxtLink>
+        <NuxtLink to="bloom" class="hover:text-gray-200">Bloom</NuxtLink>
+        <NuxtLink to="chatbot" class="hover:text-gray-200">Chatbot</NuxtLink>
         <NuxtLink to="stablediffusion" class="hover:text-gray-200">Text to Image</NuxtLink>
         <NuxtLink to="whisper" class="hover:text-gray-200">Audio to Text</NuxtLink>
       </ul>
